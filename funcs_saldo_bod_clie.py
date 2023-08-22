@@ -3,11 +3,12 @@ import numpy as np
 import plotly.express as px
 import datetime
 
-def facts_cleaner(file_name):
+def facts_cleaner(file_name, start='2016'):
   '''
   Clean the dataframe.
   Receives:
     file_name = The txt file exported from contpaqi.
+    start = Start year of data, default 2016.
   Returns: the cleaned df.
   '''
   temp = pd.read_table(file_name, encoding = 'latin_1',header = 2,
@@ -27,6 +28,7 @@ def facts_cleaner(file_name):
     temp.razonsocial.str.lower(),temp.total.map(float),temp.pendiente.map(float),temp.unidades.map(float),\
     temp.formapago.map(str),temp.metodopago.str.lower()
   temp['fecha'] = pd.to_datetime(temp['fecha'],format = '%d/%m/%Y')
+  temp = temp[temp.fecha > start]
 
   return temp
 
