@@ -68,6 +68,7 @@ def facts_grouper(df, fecha_inicio='2016', adeudo=100, days=0, metodo_pago='ppd'
     days = Min of days elapsed.
     metodo_pago = ppd or pue, default ppd.
   Return: The df grouped with the parameters passed.
+  Print: Last date of invoices showed.
   '''
   temp = df.copy()
   temp = temp[(temp.fecha > fecha_inicio) & (temp.pendiente > adeudo) & (temp.cancelado == 0)
@@ -79,6 +80,7 @@ def facts_grouper(df, fecha_inicio='2016', adeudo=100, days=0, metodo_pago='ppd'
                                max_fecha = ('fecha','max'),
                                facturas = ('razonsocial',pd.value_counts)
                               ).sort_values('pendiente', ascending = False).reset_index()
+  print(f'Facturas anteriores a la fecha: {(datetime.datetime.utcnow() - datetime.timedelta(days=days))}')
   return temp
 
 def plot_facts(df):
